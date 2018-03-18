@@ -5,18 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_news"
             android:title="@string/navigation_drawer_news" />
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_add_sale"
             android:title="@string/navigation_drawer_paper_sales" />
         <item
-            android:id="@+id/nav_send"
+            android:id="@+id/nav_sale_history"
             android:title="@string/navigation_drawer_ff_sales" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_settings"
             android:title="@string/navigation_drawer_settings" />
     </group>
-
 
 </menu>
