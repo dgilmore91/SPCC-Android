@@ -2,6 +2,7 @@ package uk.org.socialistparty.spcc.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +14,13 @@ import android.view.MenuItem;
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.fragments.AddSaleFragment;
+import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AddSaleFragment.OnFragmentInteractionListener{
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
+        AddSaleFragment.OnFragmentInteractionListener,
+        SaleHistoryFragment.OnFragmentInteractionListener{
 
     private FragmentManager fragmentManager;
 
@@ -51,26 +56,26 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Fragment fragment = null;
         int id = item.getItemId();
 
         if (id == R.id.nav_news) {
 
         } else if (id == R.id.nav_add_sale) {
-
-            AddSaleFragment addSaleFragment = new AddSaleFragment();
-            fragmentManager
-                    .beginTransaction()
-                    .add(R.id.fragment_container, addSaleFragment)
-                    .commit();
-
+            fragment = new AddSaleFragment();
         } else if (id == R.id.nav_sale_history) {
-
+            fragment = new SaleHistoryFragment();
         } else if (id == R.id.nav_settings) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
         return true;
     }
 
