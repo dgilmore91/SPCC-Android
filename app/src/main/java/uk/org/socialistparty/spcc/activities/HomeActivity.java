@@ -2,6 +2,7 @@ package uk.org.socialistparty.spcc.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -16,23 +17,26 @@ import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.fragments.AddSaleFragment;
 import uk.org.socialistparty.spcc.fragments.NewsFragment;
 import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
+import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
         AddSaleFragment.OnFragmentInteractionListener,
         SaleHistoryFragment.OnFragmentInteractionListener,
-        NewsFragment.OnFragmentInteractionListener{
+        NewsFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener{
 
     private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fragmentManager = getSupportFragmentManager();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -54,9 +58,8 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
         int id = item.getItemId();
@@ -68,7 +71,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_sale_history) {
             fragment = new SaleHistoryFragment();
         } else if (id == R.id.nav_settings) {
-
+            fragment = new SettingsFragment();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

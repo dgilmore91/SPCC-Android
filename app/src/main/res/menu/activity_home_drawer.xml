@@ -9,10 +9,10 @@
             android:title="@string/navigation_drawer_news" />
         <item
             android:id="@+id/nav_add_sale"
-            android:title="@string/navigation_drawer_paper_sales" />
+            android:title="@string/navigation_drawer_add_sale" />
         <item
             android:id="@+id/nav_sale_history"
-            android:title="@string/navigation_drawer_ff_sales" />
+            android:title="@string/navigation_drawer_sale_history" />
         <item
             android:id="@+id/nav_settings"
             android:title="@string/navigation_drawer_settings" />
