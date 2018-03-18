@@ -14,13 +14,15 @@ import android.view.MenuItem;
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.fragments.AddSaleFragment;
+import uk.org.socialistparty.spcc.fragments.NewsFragment;
 import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
         AddSaleFragment.OnFragmentInteractionListener,
-        SaleHistoryFragment.OnFragmentInteractionListener{
+        SaleHistoryFragment.OnFragmentInteractionListener,
+        NewsFragment.OnFragmentInteractionListener{
 
     private FragmentManager fragmentManager;
 
@@ -60,7 +62,7 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_news) {
-
+            fragment = new NewsFragment();
         } else if (id == R.id.nav_add_sale) {
             fragment = new AddSaleFragment();
         } else if (id == R.id.nav_sale_history) {
