@@ -16,4 +16,8 @@
     <string name="add_sale_fragment">Add Sale Fragment</string>
     <string name="sale_history_fragment">Sale History Fragment</string>
     <string name="settings_fragment">Settings Fragment</string>
+    <string name="paper_sale_container_title_string">Papers:</string>
+    <string name="paper_sale_container_input_hint">Papers sold</string>
+    <string name="fighting_fund_container_title_string">Fighting Fund:</string>
+    <string name="fighting_fund_container_input_hint">0</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import uk.org.socialistparty.spcc.R;
+import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
 
 public class AddSaleFragment extends Fragment {
@@ -19,6 +21,9 @@ public class AddSaleFragment extends Fragment {
 
     private int papersSold = 0;
     private float fundRaised = 0;
+
+    private EditText paperTextView;
+    private EditText fundTextView;
 
     private OnValueChangedListener mListener;
 
@@ -55,12 +60,15 @@ public class AddSaleFragment extends Fragment {
         return containerView;
     }
 
-    private void initTextFields(View container) {
-        EditText paperTextView = container.findViewById(R.id.paper_sale_container_input);
+    public void initTextFields(View container) {
+        paperTextView = container.findViewById(R.id.paper_sale_container_input);
         paperTextView.setText(String.valueOf(papersSold));
 
-        EditText fundsTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
-        fundsTextView.setText(String.valueOf(fundRaised));
+        fundTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
+        fundTextView.setFilters(new InputFilter[] {new CurrencyFilter()});
+        fundTextView.setText(String.valueOf(fundRaised));
+        fundTextView.setOnFocusChangeListener(new FightingFundFocusListener());
+        convertFundToCurrency();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,7 +97,23 @@ public class AddSaleFragment extends Fragment {
         mListener = null;
     }
 
+    public void convertFundToCurrency() {
+        Float enteredValue = Float.parseFloat(fundTextView.getText().toString());
+        String formattedValue = String.format("%.2f", enteredValue);
+        fundTextView.setText(formattedValue);
+    }
+
     public interface OnValueChangedListener {
         void onAddSaleValueChange(Pair valueChangePair);
+    }
+
+    public class FightingFundFocusListener implements View.OnFocusChangeListener {
+
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            if(!hasFocus) {
+                convertFundToCurrency();
+            }
+        }
     }
 }

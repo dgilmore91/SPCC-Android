@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Papers:"
+            android:text="@string/paper_sale_container_title_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="3"
-            android:hint="0"
+            android:hint="@string/paper_sale_container_input_hint"
             android:inputType="numberDecimal"
             android:textAlignment="viewEnd"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Fighting Fund:"
+            android:text="@string/fighting_fund_container_title_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="3"
-            android:hint="0"
+            android:hint="@string/fighting_fund_container_input_hint"
             android:inputType="numberDecimal"
             android:textAlignment="viewEnd"
             app:layout_constraintEnd_toEndOf="parent"/>
