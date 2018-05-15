@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.MenuItem;
 
 import uk.org.socialistparty.spcc.R;
@@ -22,7 +23,7 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        AddSaleFragment.OnFragmentInteractionListener,
+        AddSaleFragment.OnValueChangedListener,
         SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener{
@@ -88,6 +89,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onAddSaleValueChange(Pair valueChangePair) {
+        System.out.println(valueChangePair);
     }
 
     @Override

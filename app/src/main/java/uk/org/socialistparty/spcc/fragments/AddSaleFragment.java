@@ -4,51 +4,37 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import uk.org.socialistparty.spcc.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddSaleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddSaleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddSaleFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String PAPERS_SOLD = "papers_sold";
+    private static final String FIGHTING_FUND_RAISED = "fighting_fund_raised";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int papersSold;
+    private float fundRaised;
 
-    private OnFragmentInteractionListener mListener;
+    private OnValueChangedListener mListener;
 
     public AddSaleFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddSaleFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static AddSaleFragment newInstance(String param1, String param2) {
+    public static AddSaleFragment newInstance(String papersSold, String fundRaised) {
         AddSaleFragment fragment = new AddSaleFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(PAPERS_SOLD, papersSold);
+        args.putString(PAPERS_SOLD, fundRaised);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +43,8 @@ public class AddSaleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            papersSold = getArguments().getInt(PAPERS_SOLD, 0);
+            fundRaised = getArguments().getFloat(FIGHTING_FUND_RAISED, 0.0f);
         }
     }
 
@@ -66,24 +52,32 @@ public class AddSaleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_sale, container, false);
+        View containerView = inflater.inflate(
+                R.layout.fragment_add_sale, container, false
+        );
+        EditText paperSaleTextView = containerView.findViewById(R.id.paper_sale_container_input);
+        System.out.println(papersSold);
+        paperSaleTextView.setText(String.valueOf(papersSold));
+        return containerView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+        Pair valueChangePair = new Pair<>("value", 12);
+
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onAddSaleValueChange(valueChangePair);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnValueChangedListener) {
+            mListener = (OnValueChangedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnValueChangedListener");
         }
     }
 
@@ -93,18 +87,7 @@ public class AddSaleFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public interface OnValueChangedListener {
+        void onAddSaleValueChange(Pair valueChangePair);
     }
 }
