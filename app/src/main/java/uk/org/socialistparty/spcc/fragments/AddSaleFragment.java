@@ -14,19 +14,15 @@ import uk.org.socialistparty.spcc.R;
 
 
 public class AddSaleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PAPERS_SOLD = "papers_sold";
     private static final String FIGHTING_FUND_RAISED = "fighting_fund_raised";
 
-    // TODO: Rename and change types of parameters
-    private int papersSold;
-    private float fundRaised;
+    private int papersSold = 0;
+    private float fundRaised = 0;
 
     private OnValueChangedListener mListener;
 
     public AddSaleFragment() {
-        // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
@@ -49,16 +45,22 @@ public class AddSaleFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View containerView = inflater.inflate(
                 R.layout.fragment_add_sale, container, false
         );
-        EditText paperSaleTextView = containerView.findViewById(R.id.paper_sale_container_input);
-        System.out.println(papersSold);
-        paperSaleTextView.setText(String.valueOf(papersSold));
+        initTextFields(containerView);
         return containerView;
+    }
+
+    private void initTextFields(View container) {
+        EditText paperTextView = container.findViewById(R.id.paper_sale_container_input);
+        paperTextView.setText(String.valueOf(papersSold));
+
+        EditText fundsTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
+        fundsTextView.setText(String.valueOf(fundRaised));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
