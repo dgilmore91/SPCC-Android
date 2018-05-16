@@ -64,7 +64,7 @@ public class AddSaleFragment extends Fragment {
 
     public void initTextFields(View container) {
         paperTextView = container.findViewById(R.id.paper_sale_container_input);
-        paperTextView.setText(String.valueOf(papersSold));
+        if (papersSold > 0) { paperTextView.setText(String.valueOf(papersSold)); }
 
         fundTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
         fundTextView.setFilters(new InputFilter[] {new CurrencyFilter()});

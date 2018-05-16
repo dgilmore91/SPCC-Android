@@ -17,8 +17,14 @@
     <string name="sale_history_fragment">Sale History Fragment</string>
     <string name="settings_fragment">Settings Fragment</string>
     <string name="paper_sale_container_title_string">Papers:</string>
-    <string name="paper_sale_container_input_hint">Papers sold</string>
+    <string name="paper_sale_container_input_hint">0</string>
     <string name="fighting_fund_container_title_string">Fighting Fund:</string>
     <string name="fighting_fund_container_input_hint">0</string>
     <string name="paper_sale_form_confirm_button_text">Add This Sale</string>
+    <string name="date_container_title_string">Date:</string>
+    <string name="date_container_input_hint">Date</string>
+    <string name="date_day_container_input_hint">Day</string>
+    <string name="date_month_container_input_hint">Month</string>
+    <string name="date_year_container_input_hint">Year</string>
+    <string name="fighting_fund_sale_currency_text">£</string>
 </resources>
