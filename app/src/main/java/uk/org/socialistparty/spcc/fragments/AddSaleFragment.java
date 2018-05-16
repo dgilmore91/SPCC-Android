@@ -58,11 +58,11 @@ public class AddSaleFragment extends Fragment {
         View containerView = inflater.inflate(
                 R.layout.fragment_add_sale, container, false
         );
-        initTextFields(containerView);
+        initInputFields(containerView);
         return containerView;
     }
 
-    public void initTextFields(View container) {
+    public void initInputFields(View container) {
         paperTextView = container.findViewById(R.id.paper_sale_container_input);
         if (papersSold > 0) { paperTextView.setText(String.valueOf(papersSold)); }
 

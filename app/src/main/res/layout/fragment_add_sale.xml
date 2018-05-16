@@ -7,6 +7,7 @@
     tools:context="uk.org.socialistparty.spcc.fragments.AddSaleFragment"
     >
 
+    <!--Papers-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/paper_sale_container"
         android:layout_width="0dp"
@@ -38,6 +39,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--Fighting Fund-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fighting_fund_sale_container"
         android:layout_width="0dp"
@@ -80,6 +82,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--Date-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/date_container"
         android:layout_width="0dp"
@@ -150,6 +153,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--Notes-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/notes_container"
         android:layout_width="0dp"
@@ -170,19 +174,53 @@
             app:layout_constraintHorizontal_weight="3"/>
 
         <EditText
+            android:id="@+id/notes_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:hint="@string/notes_input_hint"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notes_container_title"/>
 
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Paid Check-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/paid_checkbox_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notes_container"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/paid_checkbox_container_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/paid_checkbox_container_title_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/paid_checkbox_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/day_input"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--Confirm Button-->
     <Button
         android:id="@+id/paper_sale_confirm_button"
         android:layout_width="0dp"

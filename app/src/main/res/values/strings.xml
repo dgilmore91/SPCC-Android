@@ -28,4 +28,6 @@
     <string name="date_year_container_input_hint">Year</string>
     <string name="fighting_fund_sale_currency_text">£</string>
     <string name="notes_container_title_string">Notes:</string>
+    <string name="paid_checkbox_container_title_string">Paid?</string>
+    <string name="notes_input_hint">Add any notes about this sale here.</string>
 </resources>
