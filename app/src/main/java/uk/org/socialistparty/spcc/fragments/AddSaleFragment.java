@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.Locale;
+
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
@@ -99,7 +101,7 @@ public class AddSaleFragment extends Fragment {
 
     public void convertFundToCurrency() {
         Float enteredValue = Float.parseFloat(fundTextView.getText().toString());
-        String formattedValue = String.format("%.2f", enteredValue);
+        String formattedValue = String.format(Locale.getDefault(), "%.2f", enteredValue);
         fundTextView.setText(formattedValue);
     }
 
