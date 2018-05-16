@@ -38,7 +38,6 @@ public class AddSaleFragment extends Fragment {
     private EditText yearTextView;
     private EditText notesTextView;
     private CheckBox paidCheck;
-    private Button addSaleButton;
 
 
     public AddSaleFragment() {
@@ -91,7 +90,7 @@ public class AddSaleFragment extends Fragment {
 
         paidCheck = container.findViewById(R.id.paid_checkbox_input);
 
-        addSaleButton = container.findViewById(R.id.paper_sale_confirm_button);
+        Button addSaleButton = container.findViewById(R.id.paper_sale_confirm_button);
         addSaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +116,25 @@ public class AddSaleFragment extends Fragment {
         paidCheck.setChecked(isPaid);
     }
 
+    public void getValues() {
+        papersSold = Integer.parseInt(paperTextView.getText().toString());
+        fundRaised = Float.parseFloat(fundTextView.getText().toString());
+        day = Integer.parseInt(dayTextView.getText().toString());
+        month = Integer.parseInt(monthTextView.getText().toString());
+        year = Integer.parseInt(yearTextView.getText().toString());
+        notes = notesTextView.getText().toString();
+        isPaid = paidCheck.isChecked();
+    }
+
     public void onAddSalePressed(View button) {
+        getValues();
+        System.out.println(papersSold);
+        System.out.println(fundRaised);
+        System.out.println(day);
+        System.out.println(month);
+        System.out.println(year);
+        System.out.println(notes);
+        System.out.println(isPaid);
 
     }
 
@@ -132,13 +149,16 @@ public class AddSaleFragment extends Fragment {
     }
 
     public void convertFundToCurrency() {
-        Float enteredValue = Float.parseFloat(fundTextView.getText().toString());
-        String formattedValue = String.format(Locale.getDefault(), "%.2f", enteredValue);
-        fundTextView.setText(formattedValue);
+        String enteredValue = fundTextView.getText().toString();
+
+        if(!enteredValue.isEmpty()){
+            Float floatValue = Float.parseFloat(enteredValue);
+            String formattedValue = String.format(Locale.getDefault(), "%.2f", floatValue);
+            fundTextView.setText(formattedValue);
+        }
     }
 
     public class FightingFundFocusListener implements View.OnFocusChangeListener {
-
         @Override
         public void onFocusChange(View view, boolean hasFocus) {
             if(!hasFocus) {
