@@ -20,4 +20,5 @@
     <string name="paper_sale_container_input_hint">Papers sold</string>
     <string name="fighting_fund_container_title_string">Fighting Fund:</string>
     <string name="fighting_fund_container_input_hint">0</string>
+    <string name="paper_sale_form_confirm_button_text">Add This Sale</string>
 </resources>
