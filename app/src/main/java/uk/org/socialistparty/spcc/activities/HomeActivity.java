@@ -23,7 +23,6 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        AddSaleFragment.OnValueChangedListener,
         SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener{

@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -24,6 +25,11 @@ public class AddSaleFragment extends Fragment {
 
     private int papersSold = 0;
     private float fundRaised = 0;
+    private int day = 0;
+    private int month = 0;
+    private int year = 0;
+    private String notes;
+    private boolean isPaid = false;
 
     private EditText paperTextView;
     private EditText fundTextView;
@@ -32,18 +38,19 @@ public class AddSaleFragment extends Fragment {
     private EditText yearTextView;
     private EditText notesTextView;
     private CheckBox paidCheck;
+    private Button addSaleButton;
 
-    private OnValueChangedListener mListener;
 
     public AddSaleFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static AddSaleFragment newInstance(String papersSold, String fundRaised) {
+    public static AddSaleFragment newInstance(
+            int papersSold,
+            float fundRaised) {
         AddSaleFragment fragment = new AddSaleFragment();
         Bundle args = new Bundle();
-        args.putString(PAPERS_SOLD, papersSold);
-        args.putString(PAPERS_SOLD, fundRaised);
+        args.putInt(PAPERS_SOLD, papersSold);
+        args.putFloat(FIGHTING_FUND_RAISED, fundRaised);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,19 +71,17 @@ public class AddSaleFragment extends Fragment {
         View containerView = inflater.inflate(
                 R.layout.fragment_add_sale, container, false
         );
-        initInputFields(containerView);
+        setInputFields(containerView);
+        initInputFields();
         return containerView;
     }
 
-    public void initInputFields(View container) {
+    public void setInputFields(View container) {
         paperTextView = container.findViewById(R.id.paper_sale_container_input);
-        if (papersSold > 0) { paperTextView.setText(String.valueOf(papersSold)); }
 
         fundTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
         fundTextView.setFilters(new InputFilter[] {new CurrencyFilter()});
-        fundTextView.setText(String.valueOf(fundRaised));
         fundTextView.setOnFocusChangeListener(new FightingFundFocusListener());
-        convertFundToCurrency();
 
         dayTextView = container.findViewById(R.id.day_input);
         monthTextView = container.findViewById(R.id.month_input);
@@ -85,42 +90,51 @@ public class AddSaleFragment extends Fragment {
         notesTextView = container.findViewById(R.id.notes_input);
 
         paidCheck = container.findViewById(R.id.paid_checkbox_input);
+
+        addSaleButton = container.findViewById(R.id.paper_sale_confirm_button);
+        addSaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddSalePressed(view);
+            }
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        Pair valueChangePair = new Pair<>("value", 12);
+    public void initInputFields() {
+        if (papersSold > 0) { paperTextView.setText(String.valueOf(papersSold)); }
 
-        if (mListener != null) {
-            mListener.onAddSaleValueChange(valueChangePair);
+        if (fundRaised > 0) {
+            fundTextView.setText(String.valueOf(fundRaised));
+            convertFundToCurrency();
         }
+
+        if (day > 0) { dayTextView.setText(String.valueOf(day)); }
+        if (month > 0) { monthTextView.setText(String.valueOf(month)); }
+        if (year > 0) { yearTextView.setText(String.valueOf(year)); }
+
+        if (notes != null) { notesTextView.setText(notes); }
+
+        paidCheck.setChecked(isPaid);
+    }
+
+    public void onAddSalePressed(View button) {
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnValueChangedListener) {
-            mListener = (OnValueChangedListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnValueChangedListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     public void convertFundToCurrency() {
         Float enteredValue = Float.parseFloat(fundTextView.getText().toString());
         String formattedValue = String.format(Locale.getDefault(), "%.2f", enteredValue);
         fundTextView.setText(formattedValue);
-    }
-
-    public interface OnValueChangedListener {
-        void onAddSaleValueChange(Pair valueChangePair);
     }
 
     public class FightingFundFocusListener implements View.OnFocusChangeListener {

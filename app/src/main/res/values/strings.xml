@@ -20,7 +20,7 @@
     <string name="paper_sale_container_input_hint">0</string>
     <string name="fighting_fund_container_title_string">Fighting Fund:</string>
     <string name="fighting_fund_container_input_hint">0</string>
-    <string name="paper_sale_form_confirm_button_text">Add This Sale</string>
+    <string name="paper_sale_form_confirm_button_text">Confirm</string>
     <string name="date_container_title_string">Date:</string>
     <string name="date_container_input_hint">Date</string>
     <string name="date_day_container_input_hint">Day</string>
