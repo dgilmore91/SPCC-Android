@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.util.Locale;
@@ -26,6 +27,11 @@ public class AddSaleFragment extends Fragment {
 
     private EditText paperTextView;
     private EditText fundTextView;
+    private EditText dayTextView;
+    private EditText monthTextView;
+    private EditText yearTextView;
+    private EditText notesTextView;
+    private CheckBox paidCheck;
 
     private OnValueChangedListener mListener;
 
@@ -71,6 +77,14 @@ public class AddSaleFragment extends Fragment {
         fundTextView.setText(String.valueOf(fundRaised));
         fundTextView.setOnFocusChangeListener(new FightingFundFocusListener());
         convertFundToCurrency();
+
+        dayTextView = container.findViewById(R.id.day_input);
+        monthTextView = container.findViewById(R.id.month_input);
+        yearTextView = container.findViewById(R.id.year_input);
+
+        notesTextView = container.findViewById(R.id.notes_input);
+
+        paidCheck = container.findViewById(R.id.paid_checkbox_input);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
