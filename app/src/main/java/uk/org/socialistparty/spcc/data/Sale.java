@@ -27,18 +27,13 @@ public class Sale {
     @ColumnInfo(name = "is_paid")
     private boolean isPaid;
 
-    public Sale() {
-
-    }
-
-    public Sale(
-            int sale_id,
-            int dateCreated,
-            int papersSold,
-            float fundRaised,
-            int saleDate,
-            String notes,
-            boolean isPaid){
+    Sale(int sale_id,
+         int dateCreated,
+         int papersSold,
+         float fundRaised,
+         int saleDate,
+         String notes,
+         boolean isPaid){
         this.sale_id = sale_id;
         this.dateCreated = dateCreated;
         this.papersSold = papersSold;
@@ -80,7 +75,7 @@ public class Sale {
         this.fundRaised = fundRaised;
     }
 
-    public float getSaleDate() {
+    public int getSaleDate() {
         return saleDate;
     }
 
