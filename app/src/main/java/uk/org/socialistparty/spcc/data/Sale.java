@@ -6,11 +6,11 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "sales")
 public class Sale {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int sale_id;
 
     @ColumnInfo(name = "date_created")
-    private int dateCreated;
+    private long dateCreated;
 
     @ColumnInfo(name = "papers_sold")
     private int papersSold;
@@ -19,7 +19,7 @@ public class Sale {
     private float fundRaised;
 
     @ColumnInfo(name = "sale_date")
-    private int saleDate;
+    private long saleDate;
 
     @ColumnInfo(name = "notes")
     private String notes;
@@ -27,14 +27,13 @@ public class Sale {
     @ColumnInfo(name = "is_paid")
     private boolean isPaid;
 
-    Sale(int sale_id,
-         int dateCreated,
-         int papersSold,
-         float fundRaised,
-         int saleDate,
-         String notes,
-         boolean isPaid){
-        this.sale_id = sale_id;
+    public Sale(
+            long dateCreated,
+            int papersSold,
+            float fundRaised,
+            long saleDate,
+            String notes,
+            boolean isPaid){
         this.dateCreated = dateCreated;
         this.papersSold = papersSold;
         this.fundRaised = fundRaised;
@@ -51,11 +50,11 @@ public class Sale {
         this.sale_id = sale_id;
     }
 
-    public int getDateCreated() {
+    public long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(int dateCreated) {
+    public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -75,11 +74,11 @@ public class Sale {
         this.fundRaised = fundRaised;
     }
 
-    public int getSaleDate() {
+    public long getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(int saleDate) {
+    public void setSaleDate(long saleDate) {
         this.saleDate = saleDate;
     }
 

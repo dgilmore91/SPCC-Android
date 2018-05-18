@@ -1,6 +1,8 @@
 package uk.org.socialistparty.spcc.activities;
 
+import android.arch.persistence.room.Room;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.MenuItem;
 
+import java.lang.ref.WeakReference;
+
 import uk.org.socialistparty.spcc.R;
+import uk.org.socialistparty.spcc.data.AppDatabase;
+import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.fragments.AddSaleFragment;
 import uk.org.socialistparty.spcc.fragments.NewsFragment;
 import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
@@ -22,12 +28,14 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements
+        AddSaleFragment.OnSaleConfirmedListener,
         NavigationView.OnNavigationItemSelectedListener,
         SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener{
 
     private FragmentManager fragmentManager;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,12 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        AppDatabase db = Room.databaseBuilder(
+                getApplicationContext(),
+                AppDatabase.class,
+                "spcc-db")
+                .build();
     }
 
     @Override
@@ -94,4 +108,38 @@ public class HomeActivity extends AppCompatActivity
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+    private AppDatabase getDB(){
+        if(db == null){
+            db = Room.databaseBuilder(
+                    getApplicationContext(),
+                    AppDatabase.class,
+                    "spcc-db")
+                    .build();
+        }
+        return db;
+    }
+
+    // Method and task to add sale from a fragment
+    public void onSalesConfirmed(Sale... sales){
+        new addSaleTask(this, sales).execute();
+    }
+
+    private static class addSaleTask extends AsyncTask<Void, Void, Void> {
+
+        private WeakReference<HomeActivity> activityReference;
+        private Sale[] sales;
+
+        addSaleTask(HomeActivity context, Sale[] sales) {
+            activityReference = new WeakReference<>(context);
+            sales = sales;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            activityReference.get().getDB().saleDao().insertAll(sales);
+            return null;
+        }
+    }
+
 }

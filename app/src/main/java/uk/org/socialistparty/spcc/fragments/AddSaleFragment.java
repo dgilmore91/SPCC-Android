@@ -1,11 +1,10 @@
 package uk.org.socialistparty.spcc.fragments;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import uk.org.socialistparty.spcc.R;
+import uk.org.socialistparty.spcc.activities.HomeActivity;
+import uk.org.socialistparty.spcc.data.AppDatabase;
+import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
 
@@ -39,6 +44,8 @@ public class AddSaleFragment extends Fragment {
     private EditText notesTextView;
     private CheckBox paidCheck;
 
+    private OnSaleConfirmedListener listener;
+    private HomeActivity activity;
 
     public AddSaleFragment() {
     }
@@ -128,19 +135,28 @@ public class AddSaleFragment extends Fragment {
 
     public void onAddSalePressed(View button) {
         getValues();
-        System.out.println(papersSold);
-        System.out.println(fundRaised);
-        System.out.println(day);
-        System.out.println(month);
-        System.out.println(year);
-        System.out.println(notes);
-        System.out.println(isPaid);
+        if(activity == null){
+            activity = (HomeActivity) getActivity();
+        }
+        Date now = new Date();
+        long nowStamp = now.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        long saleDateStamp = calendar.getTime().getTime();
 
+        Sale saleToAdd = new Sale(nowStamp, papersSold, fundRaised, saleDateStamp, notes, isPaid);
+        listener.onSalesConfirmed(saleToAdd);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnSaleConfirmedListener) {
+            listener = (OnSaleConfirmedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnValueChangedListener");
+        }
     }
 
     @Override
@@ -165,5 +181,9 @@ public class AddSaleFragment extends Fragment {
                 convertFundToCurrency();
             }
         }
+    }
+
+    public interface OnSaleConfirmedListener {
+        void onSalesConfirmed(Sale... sales);
     }
 }
