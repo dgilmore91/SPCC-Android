@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -13,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.MenuItem;
 
 import java.lang.ref.WeakReference;
@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener,
         SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener{
+        SettingsFragment.OnFragmentInteractionListener {
 
     private FragmentManager fragmentManager;
     private AppDatabase db;
@@ -54,12 +54,6 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        AppDatabase db = Room.databaseBuilder(
-                getApplicationContext(),
-                AppDatabase.class,
-                "spcc-db")
-                .build();
     }
 
     @Override
@@ -75,27 +69,13 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        Fragment fragment = null;
+        String fragment_name = null;
         int id = item.getItemId();
-
-        if (id == R.id.nav_news) {
-            fragment = new NewsFragment();
-        } else if (id == R.id.nav_add_sale) {
-            fragment = new AddSaleFragment();
-        } else if (id == R.id.nav_sale_history) {
-            fragment = new SaleHistoryFragment();
-        } else if (id == R.id.nav_settings) {
-            fragment = new SettingsFragment();
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-
+        moveToFragment(id);
         return true;
     }
 
@@ -104,13 +84,8 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
-
-    private AppDatabase getDB(){
-        if(db == null){
+    private AppDatabase getDB() {
+        if (db == null) {
             db = Room.databaseBuilder(
                     getApplicationContext(),
                     AppDatabase.class,
@@ -120,8 +95,40 @@ public class HomeActivity extends AppCompatActivity
         return db;
     }
 
+    public void moveToFragment(int fragmentId) {
+        Fragment fragment = null;
+
+        switch (fragmentId) {
+            case R.id.nav_news:
+                fragment = new NewsFragment();
+                break;
+            case R.id.nav_add_sale:
+                fragment = new AddSaleFragment();
+                break;
+            case R.id.nav_sale_history:
+                fragment = new SaleHistoryFragment();
+                break;
+            case R.id.nav_settings:
+                fragment = new SettingsFragment();
+                break;
+        }
+
+        if (fragment != null) {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+        }
+    }
+
+    public void sendMessageToUser(String message) {
+        Snackbar.make(findViewById(R.id.home_coordinator), message,
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
+
     // Method and task to add sale from a fragment
-    public void onSalesConfirmed(Sale... sales){
+    public void onSalesConfirmed(Sale... sales) {
         new addSaleTask(this, sales).execute();
     }
 
@@ -132,14 +139,15 @@ public class HomeActivity extends AppCompatActivity
 
         addSaleTask(HomeActivity context, Sale[] sales) {
             activityReference = new WeakReference<>(context);
-            sales = sales;
+            this.sales = sales;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             activityReference.get().getDB().saleDao().insertAll(sales);
+            activityReference.get().sendMessageToUser("Paper sale info saved successfully");
+            activityReference.get().moveToFragment(R.id.nav_sale_history);
             return null;
         }
     }
-
 }
