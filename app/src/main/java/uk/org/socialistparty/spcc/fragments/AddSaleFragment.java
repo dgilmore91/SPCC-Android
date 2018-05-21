@@ -30,25 +30,19 @@ public class AddSaleFragment extends Fragment {
 
     private int papersSold = 0;
     private float fundRaised = 0;
-    private int day = 0;
-    private int month = 0;
-    private int year = 0;
+    private int day, month, year = 0;
     private String notes;
     private boolean isPaid = false;
 
-    private EditText paperTextView;
-    private EditText fundTextView;
-    private EditText dayTextView;
-    private EditText monthTextView;
-    private EditText yearTextView;
-    private EditText notesTextView;
+    private EditText paperTextView, fundTextView,
+            dayTextView, monthTextView, yearTextView,
+            notesTextView;
     private CheckBox paidCheck;
 
     private OnSaleConfirmedListener listener;
     private HomeActivity activity;
 
-    public AddSaleFragment() {
-    }
+    public AddSaleFragment() { }
 
     public static AddSaleFragment newInstance(
             int papersSold,
@@ -67,6 +61,9 @@ public class AddSaleFragment extends Fragment {
         if (getArguments() != null) {
             papersSold = getArguments().getInt(PAPERS_SOLD, 0);
             fundRaised = getArguments().getFloat(FIGHTING_FUND_RAISED, 0.0f);
+        }
+        if(activity == null){
+            activity = (HomeActivity) getActivity();
         }
     }
 
@@ -124,20 +121,47 @@ public class AddSaleFragment extends Fragment {
     }
 
     public void getValues() {
-        papersSold = Integer.parseInt(paperTextView.getText().toString());
-        fundRaised = Float.parseFloat(fundTextView.getText().toString());
-        day = Integer.parseInt(dayTextView.getText().toString());
-        month = Integer.parseInt(monthTextView.getText().toString());
-        year = Integer.parseInt(yearTextView.getText().toString());
+        String papersSoldText = paperTextView.getText().toString();
+        String fundRaisedText = fundTextView.getText().toString();
+        String dayText = dayTextView.getText().toString();
+        String monthText = monthTextView.getText().toString();
+        String yearText = yearTextView.getText().toString();
+
+        if (papersSoldText.length() > 0) papersSold = Integer.parseInt(papersSoldText);
+        if (fundRaisedText.length() > 0) fundRaised = Float.parseFloat(fundRaisedText);
+        if (dayText.length() > 0) day = Integer.parseInt(dayText);
+        if (monthText.length() > 0) month = Integer.parseInt(monthText) - 1;
+        if (yearText.length() > 0) year = Integer.parseInt(yearText) + 2000;
+
         notes = notesTextView.getText().toString();
         isPaid = paidCheck.isChecked();
     }
 
+    private String validateValues() {
+        boolean arePapersOrFundPresent = (papersSold > 0 || fundRaised > 0);
+        boolean isDayCorrectlyFormatted = (day > 0 && day < 31);
+        boolean isMonthCorrectlyFormatted = (month > 0 && month < 12);
+        boolean isYearCorrectlyFormatted = (year > 2000);
+
+        if(!arePapersOrFundPresent){ return "Please enter papers or fighting fund." ;}
+        if(!isDayCorrectlyFormatted){ return "Day must be between 1 and 31."; }
+        if(!isMonthCorrectlyFormatted){ return "Month must be between 1 and 12."; }
+        if(!isYearCorrectlyFormatted){ return "Please enter a year."; }
+
+        return "";
+    }
+
     public void onAddSalePressed(View button) {
         getValues();
-        if(activity == null){
-            activity = (HomeActivity) getActivity();
+        String errorMessage = validateValues();
+        if(errorMessage.length() > 0){
+            activity.sendMessageToUser(errorMessage);
+        }else{
+            confirmSale();
         }
+    }
+
+    public void confirmSale(){
         Date now = new Date();
         long nowStamp = now.getTime();
         Calendar calendar = Calendar.getInstance();
@@ -157,11 +181,6 @@ public class AddSaleFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnValueChangedListener");
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     public void convertFundToCurrency() {

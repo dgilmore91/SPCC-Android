@@ -142,7 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="4"
+                android:maxLength="2"
                 android:ems="3"
                 android:hint="@string/date_year_container_input_hint"
                 android:inputType="number"
