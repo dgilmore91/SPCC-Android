@@ -1,13 +1,238 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="uk.org.socialistparty.spcc.fragments.AddSaleFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    tools:context="uk.org.socialistparty.spcc.fragments.AddSaleFragment"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/add_sale_fragment" />
+    <!--Papers-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/paper_sale_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/paper_sale_container_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/paper_sale_container_title_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/paper_sale_container_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:hint="@string/paper_sale_container_input_hint"
+            android:inputType="numberDecimal"
+            android:textAlignment="viewEnd"
+            android:imeOptions="actionNext"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Fighting Fund-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fighting_fund_sale_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/paper_sale_container"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/fighting_fund_sale_container_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/fighting_fund_container_title_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/fighting_fund_sale_container_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:hint="@string/fighting_fund_container_input_hint"
+            android:inputType="numberDecimal"
+            android:nextFocusDown="@+id/day_input"
+            android:textAlignment="viewEnd"
+            android:imeOptions="actionNext"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="1"
+            android:text="@string/fighting_fund_sale_currency_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fighting_fund_sale_container_input"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Date-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/date_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fighting_fund_sale_container"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/date_container_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/date_container_title_string"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:orientation="horizontal"
+            android:imeOptions="actionNext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_container_title">
+
+            <EditText
+                android:id="@+id/day_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="3"
+                android:maxLength="2"
+                android:hint="@string/date_day_container_input_hint"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:imeOptions="actionNext"/>
+
+            <EditText
+                android:id="@+id/month_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLength="2"
+                android:ems="3"
+                android:hint="@string/date_month_container_input_hint"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/year_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLength="2"
+                android:ems="3"
+                android:hint="@string/date_year_container_input_hint"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Notes-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/notes_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_container"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/notes_container_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/notes_container_title_string"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="3"/>
+
+        <EditText
+            android:id="@+id/notes_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:hint="@string/notes_input_hint"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notes_container_title"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Paid Check-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/paid_checkbox_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notes_container"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/paid_checkbox_container_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/paid_checkbox_container_title_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/paid_checkbox_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/day_input"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--Confirm Button-->
+    <Button
+        android:id="@+id/paper_sale_confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/paper_sale_form_confirm_button_text"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,54 +1,56 @@
 package uk.org.socialistparty.spcc.fragments;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import uk.org.socialistparty.spcc.R;
+import uk.org.socialistparty.spcc.activities.HomeActivity;
+import uk.org.socialistparty.spcc.data.AppDatabase;
+import uk.org.socialistparty.spcc.data.Sale;
+import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddSaleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddSaleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddSaleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String PAPERS_SOLD = "papers_sold";
+    private static final String FIGHTING_FUND_RAISED = "fighting_fund_raised";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int papersSold = 0;
+    private float fundRaised = 0;
+    private int day, month, year = 0;
+    private String notes;
+    private boolean isPaid = false;
 
-    private OnFragmentInteractionListener mListener;
+    private EditText paperTextView, fundTextView,
+            dayTextView, monthTextView, yearTextView,
+            notesTextView;
+    private CheckBox paidCheck;
 
-    public AddSaleFragment() {
-        // Required empty public constructor
-    }
+    private OnSaleConfirmedListener listener;
+    private HomeActivity activity;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddSaleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddSaleFragment newInstance(String param1, String param2) {
+    public AddSaleFragment() { }
+
+    public static AddSaleFragment newInstance(
+            int papersSold,
+            float fundRaised) {
         AddSaleFragment fragment = new AddSaleFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(PAPERS_SOLD, papersSold);
+        args.putFloat(FIGHTING_FUND_RAISED, fundRaised);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,54 +59,150 @@ public class AddSaleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            papersSold = getArguments().getInt(PAPERS_SOLD, 0);
+            fundRaised = getArguments().getFloat(FIGHTING_FUND_RAISED, 0.0f);
+        }
+        if(activity == null){
+            activity = (HomeActivity) getActivity();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_sale, container, false);
+        View containerView = inflater.inflate(
+                R.layout.fragment_add_sale, container, false
+        );
+        setInputFields(containerView);
+        initInputFields();
+        return containerView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void setInputFields(View container) {
+        paperTextView = container.findViewById(R.id.paper_sale_container_input);
+
+        fundTextView = container.findViewById(R.id.fighting_fund_sale_container_input);
+        fundTextView.setFilters(new InputFilter[] {new CurrencyFilter()});
+        fundTextView.setOnFocusChangeListener(new FightingFundFocusListener());
+
+        dayTextView = container.findViewById(R.id.day_input);
+        monthTextView = container.findViewById(R.id.month_input);
+        yearTextView = container.findViewById(R.id.year_input);
+
+        notesTextView = container.findViewById(R.id.notes_input);
+
+        paidCheck = container.findViewById(R.id.paid_checkbox_input);
+
+        Button addSaleButton = container.findViewById(R.id.paper_sale_confirm_button);
+        addSaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddSalePressed(view);
+            }
+        });
+    }
+
+    public void initInputFields() {
+        if (papersSold > 0) { paperTextView.setText(String.valueOf(papersSold)); }
+
+        if (fundRaised > 0) {
+            fundTextView.setText(String.valueOf(fundRaised));
+            convertFundToCurrency();
         }
+
+        if (day > 0) { dayTextView.setText(String.valueOf(day)); }
+        if (month > 0) { monthTextView.setText(String.valueOf(month)); }
+        if (year > 0) { yearTextView.setText(String.valueOf(year)); }
+
+        if (notes != null) { notesTextView.setText(notes); }
+
+        paidCheck.setChecked(isPaid);
+    }
+
+    public void getValues() {
+        String papersSoldText = paperTextView.getText().toString();
+        String fundRaisedText = fundTextView.getText().toString();
+        String dayText = dayTextView.getText().toString();
+        String monthText = monthTextView.getText().toString();
+        String yearText = yearTextView.getText().toString();
+
+        if (papersSoldText.length() > 0) papersSold = Integer.parseInt(papersSoldText);
+        if (fundRaisedText.length() > 0) fundRaised = Float.parseFloat(fundRaisedText);
+        if (dayText.length() > 0) day = Integer.parseInt(dayText);
+        if (monthText.length() > 0) month = Integer.parseInt(monthText) - 1;
+        if (yearText.length() > 0) year = Integer.parseInt(yearText) + 2000;
+
+        notes = notesTextView.getText().toString();
+        isPaid = paidCheck.isChecked();
+    }
+
+    private String validateValues() {
+        boolean arePapersOrFundPresent = (papersSold > 0 || fundRaised > 0);
+        boolean isDayCorrectlyFormatted = (day > 0 && day < 31);
+        boolean isMonthCorrectlyFormatted = (month > 0 && month < 12);
+        boolean isYearCorrectlyFormatted = (year > 2000);
+
+        if(!arePapersOrFundPresent){ return "Please enter papers or fighting fund." ;}
+        if(!isDayCorrectlyFormatted){ return "Day must be between 1 and 31."; }
+        if(!isMonthCorrectlyFormatted){ return "Month must be between 1 and 12."; }
+        if(!isYearCorrectlyFormatted){ return "Please enter a year."; }
+
+        return "";
+    }
+
+    public void onAddSalePressed(View button) {
+        getValues();
+        String errorMessage = validateValues();
+        if(errorMessage.length() > 0){
+            activity.sendMessageToUser(errorMessage);
+        }else{
+            confirmSale();
+        }
+    }
+
+    public void confirmSale(){
+        Date now = new Date();
+        long nowStamp = now.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        long saleDateStamp = calendar.getTime().getTime();
+
+        Sale saleToAdd = new Sale(nowStamp, papersSold, fundRaised, saleDateStamp, notes, isPaid);
+        listener.onSalesConfirmed(saleToAdd);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnSaleConfirmedListener) {
+            listener = (OnSaleConfirmedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnValueChangedListener");
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void convertFundToCurrency() {
+        String enteredValue = fundTextView.getText().toString();
+
+        if(!enteredValue.isEmpty()){
+            Float floatValue = Float.parseFloat(enteredValue);
+            String formattedValue = String.format(Locale.getDefault(), "%.2f", floatValue);
+            fundTextView.setText(formattedValue);
+        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public class FightingFundFocusListener implements View.OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            if(!hasFocus) {
+                convertFundToCurrency();
+            }
+        }
+    }
+
+    public interface OnSaleConfirmedListener {
+        void onSalesConfirmed(Sale... sales);
     }
 }
