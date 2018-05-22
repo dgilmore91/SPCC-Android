@@ -38,7 +38,7 @@ public class SaleHistoryFragment extends Fragment {
                 3,
                 0,
                 1044099691633L,
-                "gneiang",
+                "",
                 true));
         sales.add(new Sale(
                 1526985691631L,

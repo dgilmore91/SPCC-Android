@@ -5,8 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        style="@style/BoldText"
+    <LinearLayout
         android:layout_width="100dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
@@ -14,9 +13,32 @@
         android:id="@+id/sale_history_list_item_date_view"
         android:layout_margin="8dp"
         android:maxLines="3"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:id="@+id/sale_history_list_item_day_name_view"/>
+
+        <TextView
+            style="@style/BoldText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/accent"
+            android:textAlignment="center"
+            android:id="@+id/sale_history_list_item_day_number_view"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:id="@+id/sale_history_list_item_month_and_year_name_view"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -26,25 +48,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        >
 
-        <TextView
-            style="@style/BoldText"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/sale_history_list_item_paper_view"
-            android:layout_margin="8dp"/>
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/BoldText"
+            <TextView
+                style="@style/BoldText"
+                android:textColor="@color/primary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/sale_history_list_item_paper_view"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:text="@string/sale_history_list_item_paper_subtitle"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/sale_history_list_item_fund_view"
-            android:layout_margin="8dp"/>
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/BoldText"
+                android:textColor="@color/primary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/sale_history_list_item_fund_view"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:text="@string/sale_history_list_item_fund_subtitle"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -73,6 +126,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </android.support.constraint.ConstraintLayout>
 

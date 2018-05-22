@@ -33,4 +33,6 @@
     <string name="notes_input_hint">Optional - add extra info about this sale</string>
     <string name="sale_history_list_item_notes_view_description">Notes are available for this sale</string>
     <string name="sale_history_list_item_paid_view_description">All funds from this sale have been paid in.</string>
+    <string name="sale_history_list_item_paper_subtitle">papers</string>
+    <string name="sale_history_list_item_fund_subtitle">raised</string>
 </resources>
