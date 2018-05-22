@@ -44,7 +44,7 @@ public class SaleHistoryFragment extends Fragment {
                 1526985691631L,
                 5,
                 0,
-                1044099691633L,
+                1044899691633L,
                 "wegauorg",
                 false));
     }

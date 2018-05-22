@@ -51,7 +51,7 @@ public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdap
 
         dateView.setText(formatted);
         paperView.setText(String.valueOf(sale.getPapersSold()));
-        fundView.setText(String.valueOf(sale.getFundRaised()));
+        fundView.setText(CurrencyTools.convertToCurrency(sale.getFundRaised()));
 
     }
 

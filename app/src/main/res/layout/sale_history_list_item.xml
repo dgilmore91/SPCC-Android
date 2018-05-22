@@ -1,32 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/BoldText"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
         android:id="@+id/sale_history_list_item_date_view"
         android:layout_margin="8dp"
-        app:layout_constraintStart_toStartOf="parent">
-    </TextView>
+        android:maxLines="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sale_history_list_item_paper_view"
-        android:layout_margin="8dp"
-        app:layout_constraintStart_toEndOf="@id/sale_history_list_item_date_view">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/sale_history_list_item_date_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp">
 
-    </TextView>
+        <TextView
+            style="@style/BoldText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/sale_history_list_item_paper_view"
+            android:layout_margin="8dp"/>
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sale_history_list_item_fund_view"
-        android:layout_margin="8dp"
-        app:layout_constraintStart_toEndOf="@id/sale_history_list_item_paper_view">
+        <TextView
+            style="@style/BoldText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/sale_history_list_item_fund_view"
+            android:layout_margin="8dp"/>
 
-    </TextView>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/sale_history_list_item_notes_view"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/notes_icon"
+                android:contentDescription="@string/sale_history_list_item_notes_view_description"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/sale_history_list_item_paid_view"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/tick_icon"
+                android:contentDescription="@string/sale_history_list_item_paid_view_description"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
 
