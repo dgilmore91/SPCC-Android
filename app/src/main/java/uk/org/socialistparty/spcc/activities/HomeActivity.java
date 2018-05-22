@@ -30,7 +30,6 @@ public class HomeActivity extends AppCompatActivity
         implements
         AddSaleFragment.OnSaleConfirmedListener,
         NavigationView.OnNavigationItemSelectedListener,
-        SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener {
 
