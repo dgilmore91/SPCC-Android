@@ -1,6 +1,5 @@
 package uk.org.socialistparty.spcc.fragments;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,17 +11,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.activities.HomeActivity;
-import uk.org.socialistparty.spcc.data.AppDatabase;
 import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.util.CurrencyFilter;
-
 
 public class AddSaleFragment extends Fragment {
     private static final String PAPERS_SOLD = "papers_sold";
