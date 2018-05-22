@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sale_history_list_item_date_view"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent">
+    </TextView>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sale_history_list_item_paper_view"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toEndOf="@id/sale_history_list_item_date_view">
+
+    </TextView>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sale_history_list_item_fund_view"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toEndOf="@id/sale_history_list_item_paper_view">
+
+    </TextView>
+</android.support.constraint.ConstraintLayout>
+
