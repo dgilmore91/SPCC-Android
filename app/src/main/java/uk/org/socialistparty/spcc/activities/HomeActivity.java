@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.data.AppDatabase;
@@ -145,5 +146,9 @@ public class HomeActivity extends AppCompatActivity
             activityReference.get().moveToFragment(R.id.nav_sale_history);
             return null;
         }
+    }
+
+    public List<Sale> getSales() {
+        return getDB().saleDao().getAll();
     }
 }

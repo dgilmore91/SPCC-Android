@@ -10,43 +10,47 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import uk.org.socialistparty.spcc.R;
+import uk.org.socialistparty.spcc.activities.HomeActivity;
 import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.util.SalesRecyclerAdapter;
 
 public class SaleHistoryFragment extends Fragment {
-    private List<Sale> sales;
+    private List<Sale> sales = new ArrayList<>();
 
-    public SaleHistoryFragment() {
-        // Required empty public constructor
-    }
+    public SaleHistoryFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sales = new ArrayList<>();
-        sales.add(new Sale(
-                1526985691631L,
-                3,
-                0,
-                1044099691633L,
-                "afaefae",
-                false));
-        sales.add(new Sale(
-                1526985691631L,
-                3,
-                0,
-                1044099691633L,
-                "",
-                true));
-        sales.add(new Sale(
-                1526985691631L,
-                5,
-                0,
-                1044899691633L,
-                "wegauorg",
-                false));
+
+        Observable<List<Sale>> saleObservable = Observable.fromCallable(new Callable<List<Sale>>() {
+            @Override
+            public List<Sale> call() throws Exception {
+                return ((HomeActivity)getActivity()).getSales();
+            }
+        });
+        saleObservable.subscribeOn(Schedulers.io()).subscribe(new Observer<List<Sale>>() {
+            @Override
+            public void onSubscribe(Disposable d) {}
+
+            @Override
+            public void onNext(List<Sale> sales) {
+                saveSales(sales);
+            }
+
+            @Override
+            public void onError(Throwable e) {}
+
+            @Override
+            public void onComplete() {}
+        });
     }
 
     @Override
@@ -57,6 +61,10 @@ public class SaleHistoryFragment extends Fragment {
         );
         initRecyclerView(containerView);
         return containerView;
+    }
+
+    private void saveSales(List<Sale> sales){
+        this.sales = sales;
     }
 
     private void initRecyclerView(View containerView){
