@@ -22,7 +22,7 @@ import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.util.SalesRecyclerAdapter;
 
 public class SaleHistoryFragment extends Fragment {
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     public SaleHistoryFragment() {}
 
@@ -65,7 +65,7 @@ public class SaleHistoryFragment extends Fragment {
     }
 
     private void saveSales(List<Sale> sales){
-        SalesRecyclerAdapter recyclerAdapter = new SalesRecyclerAdapter(sales);
+        SalesRecyclerAdapter recyclerAdapter = new SalesRecyclerAdapter(sales, this);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -74,6 +74,10 @@ public class SaleHistoryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
+    }
+
+    public void viewSale(Sale sale){
+        ((HomeActivity)getActivity()).openSale(sale);
     }
 
 }

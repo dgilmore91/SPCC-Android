@@ -3,6 +3,7 @@ package uk.org.socialistparty.spcc.data;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public interface SaleDao {
     @Query("SELECT * FROM sales WHERE sale_id IN (:saleIds)")
     List<Sale> loadAllByIds(int[] saleIds);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Sale... sales);
 
     @Delete

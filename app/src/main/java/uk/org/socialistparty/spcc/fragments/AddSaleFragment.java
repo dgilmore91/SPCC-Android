@@ -29,8 +29,9 @@ import uk.org.socialistparty.spcc.util.ConversionTools;
 import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
 public class AddSaleFragment extends Fragment {
-    private static final String INCOMING_SALE_ID = "incoming_sale_id";
+    public static final String INCOMING_SALE_ID = "incoming_sale_id";
 
+    private int saleId = -1;
     private int papersSold = 0;
     private float fundRaised = 0;
     private int day, month, year = 0;
@@ -82,6 +83,7 @@ public class AddSaleFragment extends Fragment {
                     @Override
                     public void onNext(List<Sale> sales) {
                         populateFieldsFromSale(sales.get(0));
+                        initInputFields();
                     }
 
                     @Override
@@ -93,6 +95,7 @@ public class AddSaleFragment extends Fragment {
     }
 
     private void populateFieldsFromSale(Sale sale){
+        saleId = sale.getSale_id();
         papersSold = sale.getPapersSold();
         fundRaised = sale.getFundRaised();
         notes = sale.getNotes();
@@ -204,6 +207,7 @@ public class AddSaleFragment extends Fragment {
         long saleDateStamp = calendar.getTime().getTime();
 
         final Sale saleToAdd = new Sale(nowStamp, papersSold, fundRaised, saleDateStamp, notes, isPaid);
+        if(saleId >= 0) saleToAdd.setSale_id(saleId);
         Observable<Void> confirmObservable = Observable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {

@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.data.Sale;
+import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
 
 public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdapter.ViewHolder> {
     private List<Sale> sales;
+    private SaleHistoryFragment fragment;
+    private final View.OnClickListener saleItemClickListener = new SaleItemClickListener();
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout itemBaseLayout;
@@ -28,8 +28,9 @@ public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdap
         }
     }
 
-    public SalesRecyclerAdapter(List<Sale> sales) {
+    public SalesRecyclerAdapter(List<Sale> sales, SaleHistoryFragment fragment) {
         this.sales = sales;
+        this.fragment = fragment;
     }
 
     @Override
@@ -37,6 +38,7 @@ public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdap
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.sale_history_list_item, parent, false);
 
+        v.setOnClickListener(saleItemClickListener);
         return new ViewHolder(v);
     }
 
@@ -68,4 +70,15 @@ public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdap
     public int getItemCount() {
         return sales.size();
     }
+
+    public class SaleItemClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            int itemPosition = fragment.recyclerView.getChildLayoutPosition(view);
+            Sale selectedSale = sales.get(itemPosition);
+            fragment.viewSale(selectedSale);
+        }
+    }
+
 }

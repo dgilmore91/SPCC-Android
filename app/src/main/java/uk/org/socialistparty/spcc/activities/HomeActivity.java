@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -88,7 +89,7 @@ public class HomeActivity extends AppCompatActivity
         }
         return db;
     }
-
+    
     public void moveToFragment(int fragmentId) {
         Fragment fragment = null;
 
@@ -108,11 +109,16 @@ public class HomeActivity extends AppCompatActivity
         }
 
         if (fragment != null) {
+            clearBackStack();
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
         }
+    }
+
+    public void clearBackStack() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public void sendMessageToUser(String message) {
@@ -131,8 +137,23 @@ public class HomeActivity extends AppCompatActivity
 
     public Void addSale(Sale sale) {
         getDB().saleDao().insertAll(sale);
-        sendMessageToUser("Paper sale info saved successfully");
+        sendMessageToUser("Paper sale saved!");
         moveToFragment(R.id.nav_sale_history);
         return null;
+    }
+
+    public void openSale(Sale sale){
+        AddSaleFragment fragment = new AddSaleFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(AddSaleFragment.INCOMING_SALE_ID, sale.getSale_id());
+        fragment.setArguments(args);
+
+        fragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
     }
 }
