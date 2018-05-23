@@ -13,16 +13,23 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.activities.HomeActivity;
 import uk.org.socialistparty.spcc.data.Sale;
+import uk.org.socialistparty.spcc.util.ConversionTools;
 import uk.org.socialistparty.spcc.util.CurrencyFilter;
 
 public class AddSaleFragment extends Fragment {
-    private static final String PAPERS_SOLD = "papers_sold";
-    private static final String FIGHTING_FUND_RAISED = "fighting_fund_raised";
+    private static final String INCOMING_SALE_ID = "incoming_sale_id";
 
     private int papersSold = 0;
     private float fundRaised = 0;
@@ -35,18 +42,15 @@ public class AddSaleFragment extends Fragment {
             notesTextView;
     private CheckBox paidCheck;
 
-    private OnSaleConfirmedListener listener;
     private HomeActivity activity;
 
     public AddSaleFragment() { }
 
     public static AddSaleFragment newInstance(
-            int papersSold,
-            float fundRaised) {
+            int incomingSaleId) {
         AddSaleFragment fragment = new AddSaleFragment();
         Bundle args = new Bundle();
-        args.putInt(PAPERS_SOLD, papersSold);
-        args.putFloat(FIGHTING_FUND_RAISED, fundRaised);
+        args.putInt(INCOMING_SALE_ID, incomingSaleId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,12 +59,47 @@ public class AddSaleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            papersSold = getArguments().getInt(PAPERS_SOLD, 0);
-            fundRaised = getArguments().getFloat(FIGHTING_FUND_RAISED, 0.0f);
+            getExistingSale(getArguments().getInt(INCOMING_SALE_ID));
         }
         if(activity == null){
             activity = (HomeActivity) getActivity();
         }
+    }
+
+    private void getExistingSale(final int saleId){
+        Observable<List<Sale>> saleObservable = Observable.fromCallable(new Callable<List<Sale>>() {
+            @Override
+            public List<Sale> call() throws Exception {
+                return ((HomeActivity)getActivity()).getSaleForID(saleId);
+            }
+        });
+        saleObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Sale>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(List<Sale> sales) {
+                        populateFieldsFromSale(sales.get(0));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {}
+
+                    @Override
+                    public void onComplete() {}
+                });
+    }
+
+    private void populateFieldsFromSale(Sale sale){
+        papersSold = sale.getPapersSold();
+        fundRaised = sale.getFundRaised();
+        notes = sale.getNotes();
+        isPaid = sale.getIsPaid();
+        day = ConversionTools.getDayIntFromTimeStamp(sale.getSaleDate());
+        month = ConversionTools.getMonthIntFromTimeStamp(sale.getSaleDate());
+        year = ConversionTools.getYearIntFromTimeStamp(sale.getSaleDate());
     }
 
     @Override
@@ -164,19 +203,25 @@ public class AddSaleFragment extends Fragment {
         calendar.set(year, month, day);
         long saleDateStamp = calendar.getTime().getTime();
 
-        Sale saleToAdd = new Sale(nowStamp, papersSold, fundRaised, saleDateStamp, notes, isPaid);
-        listener.onSalesConfirmed(saleToAdd);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSaleConfirmedListener) {
-            listener = (OnSaleConfirmedListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnValueChangedListener");
-        }
+        final Sale saleToAdd = new Sale(nowStamp, papersSold, fundRaised, saleDateStamp, notes, isPaid);
+        Observable<Void> confirmObservable = Observable.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                return ((HomeActivity)getActivity()).addSale(saleToAdd);
+            }
+        });
+        confirmObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Void>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+                    @Override
+                    public void onNext(Void sales) { }
+                    @Override
+                    public void onError(Throwable e) {}
+                    @Override
+                    public void onComplete() {}
+                });
     }
 
     public void convertFundToCurrency() {
@@ -198,7 +243,4 @@ public class AddSaleFragment extends Fragment {
         }
     }
 
-    public interface OnSaleConfirmedListener {
-        void onSalesConfirmed(Sale... sales);
-    }
 }

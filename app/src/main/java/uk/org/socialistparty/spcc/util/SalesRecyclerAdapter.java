@@ -19,13 +19,6 @@ import uk.org.socialistparty.spcc.data.Sale;
 
 public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdapter.ViewHolder> {
     private List<Sale> sales;
-    private Calendar calendar = Calendar.getInstance();
-    private SimpleDateFormat dayNameFormat = new SimpleDateFormat(
-            "EEEE", Locale.getDefault());
-    private SimpleDateFormat dayNumberFormat = new SimpleDateFormat(
-            "d", Locale.getDefault());
-    private SimpleDateFormat monthAndYearFormat = new SimpleDateFormat(
-            "MMMM yy", Locale.getDefault());
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout itemBaseLayout;
@@ -57,11 +50,9 @@ public class SalesRecyclerAdapter extends RecyclerView.Adapter<SalesRecyclerAdap
         TextView paperView = baseLayout.findViewById(R.id.sale_history_list_item_paper_view);
         TextView fundView = baseLayout.findViewById(R.id.sale_history_list_item_fund_view);
 
-        calendar.setTimeInMillis(sale.getSaleDate());
-        Date saleDate = calendar.getTime();
-        dayNameView.setText(dayNameFormat.format(saleDate));
-        dayNumberView.setText(dayNumberFormat.format(saleDate));
-        monthAndYearView.setText(monthAndYearFormat.format(saleDate));
+        dayNameView.setText(ConversionTools.getDayNameFromTimeStamp(sale.getSaleDate()));
+        dayNumberView.setText(ConversionTools.getDayNumberFromTimeStamp(sale.getSaleDate()));
+        monthAndYearView.setText(ConversionTools.getMonthAndYearFromTimeStamp(sale.getSaleDate()));
 
         paperView.setText(String.valueOf(sale.getPapersSold()));
         fundView.setText(CurrencyTools.convertToCurrency(sale.getFundRaised()));

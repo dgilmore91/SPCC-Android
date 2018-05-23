@@ -2,7 +2,6 @@ package uk.org.socialistparty.spcc.activities;
 
 import android.arch.persistence.room.Room;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import uk.org.socialistparty.spcc.R;
@@ -29,7 +27,6 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements
-        AddSaleFragment.OnSaleConfirmedListener,
         NavigationView.OnNavigationItemSelectedListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener {
@@ -124,31 +121,18 @@ public class HomeActivity extends AppCompatActivity
                 .show();
     }
 
-    // Method and task to add sale from a fragment
-    public void onSalesConfirmed(Sale... sales) {
-        new addSaleTask(this, sales).execute();
-    }
-
-    private static class addSaleTask extends AsyncTask<Void, Void, Void> {
-
-        private WeakReference<HomeActivity> activityReference;
-        private Sale[] sales;
-
-        addSaleTask(HomeActivity context, Sale[] sales) {
-            activityReference = new WeakReference<>(context);
-            this.sales = sales;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            activityReference.get().getDB().saleDao().insertAll(sales);
-            activityReference.get().sendMessageToUser("Paper sale info saved successfully");
-            activityReference.get().moveToFragment(R.id.nav_sale_history);
-            return null;
-        }
-    }
-
     public List<Sale> getSales() {
         return getDB().saleDao().getAllOrderedByDateDesc();
+    }
+
+    public List<Sale> getSaleForID(int saleId) {
+        return getDB().saleDao().loadAllByIds(new int[]{saleId});
+    }
+
+    public Void addSale(Sale sale) {
+        getDB().saleDao().insertAll(sale);
+        sendMessageToUser("Paper sale info saved successfully");
+        moveToFragment(R.id.nav_sale_history);
+        return null;
     }
 }
