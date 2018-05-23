@@ -149,6 +149,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public List<Sale> getSales() {
-        return getDB().saleDao().getAll();
+        return getDB().saleDao().getAllOrderedByDateDesc();
     }
 }
