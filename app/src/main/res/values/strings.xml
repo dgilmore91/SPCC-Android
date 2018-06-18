@@ -20,7 +20,7 @@
     <string name="paper_sale_container_input_hint">0</string>
     <string name="fighting_fund_container_title_string">Fighting Fund:</string>
     <string name="fighting_fund_container_input_hint">0</string>
-    <string name="paper_sale_form_confirm_button_text">Confirm</string>
+    <string name="paper_sale_form_confirm_button_text">Save</string>
     <string name="date_container_title_string">Date:</string>
 
     <string name="date_container_input_hint">Date</string>
@@ -29,6 +29,10 @@
     <string name="date_year_container_input_hint">Year</string>
     <string name="fighting_fund_sale_currency_text">£</string>
     <string name="notes_container_title_string">Notes:</string>
-    <string name="paid_checkbox_container_title_string">Paid?</string>
+    <string name="paid_checkbox_container_title_string">Has this sale been paid?</string>
     <string name="notes_input_hint">Optional - add extra info about this sale</string>
+    <string name="sale_history_list_item_notes_view_description">Notes are available for this sale</string>
+    <string name="sale_history_list_item_paid_view_description">All funds from this sale have been paid in.</string>
+    <string name="sale_history_list_item_paper_subtitle">papers</string>
+    <string name="sale_history_list_item_fund_subtitle">raised</string>
 </resources>

@@ -5,6 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     tools:context="uk.org.socialistparty.spcc.fragments.AddSaleFragment"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
     >
 
     <!--Papers-->

@@ -2,13 +2,13 @@ package uk.org.socialistparty.spcc.activities;
 
 import android.arch.persistence.room.Room;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,7 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.lang.ref.WeakReference;
+import java.util.List;
 
 import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.data.AppDatabase;
@@ -28,9 +28,7 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements
-        AddSaleFragment.OnSaleConfirmedListener,
         NavigationView.OnNavigationItemSelectedListener,
-        SaleHistoryFragment.OnFragmentInteractionListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener {
 
@@ -58,7 +56,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -68,13 +66,10 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        String fragment_name = null;
-        int id = item.getItemId();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
+        int id = item.getItemId();
         moveToFragment(id);
         return true;
     }
@@ -94,7 +89,7 @@ public class HomeActivity extends AppCompatActivity
         }
         return db;
     }
-
+    
     public void moveToFragment(int fragmentId) {
         Fragment fragment = null;
 
@@ -114,11 +109,16 @@ public class HomeActivity extends AppCompatActivity
         }
 
         if (fragment != null) {
+            clearBackStack();
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
         }
+    }
+
+    public void clearBackStack() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public void sendMessageToUser(String message) {
@@ -127,27 +127,33 @@ public class HomeActivity extends AppCompatActivity
                 .show();
     }
 
-    // Method and task to add sale from a fragment
-    public void onSalesConfirmed(Sale... sales) {
-        new addSaleTask(this, sales).execute();
+    public List<Sale> getSales() {
+        return getDB().saleDao().getAllOrderedByDateDesc();
     }
 
-    private static class addSaleTask extends AsyncTask<Void, Void, Void> {
+    public List<Sale> getSaleForID(int saleId) {
+        return getDB().saleDao().loadAllByIds(new int[]{saleId});
+    }
 
-        private WeakReference<HomeActivity> activityReference;
-        private Sale[] sales;
+    public Void addSale(Sale sale) {
+        getDB().saleDao().insertAll(sale);
+        sendMessageToUser("Paper sale saved!");
+        moveToFragment(R.id.nav_sale_history);
+        return null;
+    }
 
-        addSaleTask(HomeActivity context, Sale[] sales) {
-            activityReference = new WeakReference<>(context);
-            this.sales = sales;
-        }
+    public void openSale(Sale sale){
+        AddSaleFragment fragment = new AddSaleFragment();
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            activityReference.get().getDB().saleDao().insertAll(sales);
-            activityReference.get().sendMessageToUser("Paper sale info saved successfully");
-            activityReference.get().moveToFragment(R.id.nav_sale_history);
-            return null;
-        }
+        Bundle args = new Bundle();
+        args.putInt(AddSaleFragment.INCOMING_SALE_ID, sale.getSale_id());
+        fragment.setArguments(args);
+
+        fragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
     }
 }
