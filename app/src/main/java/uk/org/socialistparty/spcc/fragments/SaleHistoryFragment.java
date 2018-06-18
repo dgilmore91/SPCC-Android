@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -23,6 +24,7 @@ import uk.org.socialistparty.spcc.util.SalesRecyclerAdapter;
 
 public class SaleHistoryFragment extends Fragment {
     public RecyclerView recyclerView;
+    public TextView noItemsView;
 
     public SaleHistoryFragment() {}
 
@@ -37,6 +39,7 @@ public class SaleHistoryFragment extends Fragment {
         View containerView = inflater.inflate(
                 R.layout.fragment_sale_history, container, false
         );
+        noItemsView = containerView.findViewById(R.id.sale_history_no_items_found_text_view);
         initRecyclerView(containerView);
         Observable<List<Sale>> saleObservable = Observable.fromCallable(new Callable<List<Sale>>() {
             @Override
@@ -65,8 +68,13 @@ public class SaleHistoryFragment extends Fragment {
     }
 
     private void saveSales(List<Sale> sales){
-        SalesRecyclerAdapter recyclerAdapter = new SalesRecyclerAdapter(sales, this);
-        recyclerView.setAdapter(recyclerAdapter);
+        if(sales.isEmpty()) {
+            noItemsView.setVisibility(View.VISIBLE);
+        } else {
+            SalesRecyclerAdapter recyclerAdapter = new SalesRecyclerAdapter(sales, this);
+            recyclerView.setAdapter(recyclerAdapter);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRecyclerView(View containerView){

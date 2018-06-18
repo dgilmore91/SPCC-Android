@@ -5,6 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="uk.org.socialistparty.spcc.fragments.SaleHistoryFragment">
 
+    <TextView
+        android:id="@+id/sale_history_no_items_found_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:gravity="center"
+        android:text="No sales found - you can add sales via the menu."
+        android:visibility="gone"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sales_history_recycler_view"
         android:scrollbars="vertical"
@@ -13,6 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/white"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>
