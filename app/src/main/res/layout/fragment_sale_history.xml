@@ -8,9 +8,10 @@
     <TextView
         android:id="@+id/sale_history_no_items_found_text_view"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No sales found - you can add sales via the menu."
+        android:text="@string/sale_history_no_items_found_text_view"
+        android:textStyle="bold"
         android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView

@@ -238,6 +238,7 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/button_selector"
         android:text="@string/paper_sale_form_confirm_button_text"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

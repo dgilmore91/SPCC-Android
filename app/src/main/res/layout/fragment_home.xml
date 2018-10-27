@@ -2,44 +2,139 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.HomeFragment"
+    >
 
-    <Button
-        android:id="@+id/home_fragment_add_sale_button"
+    <ImageView
+        android:id="@+id/home_fragment_feature_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/home_fragment_add_sale_button"
-        android:textAlignment="textEnd"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_margin="10dp"
-        android:drawableStart="@drawable/notes_icon"
-        android:background="@color/primary"
-        android:textColor="@android:color/white"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:src="@drawable/ic_sp"/>
 
-    <Button
-        android:id="@+id/home_fragment_view_history_button"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/home_fragment_view_history_button"
-        android:textAlignment="textEnd"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_margin="10dp"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/home_fragment_latest_news_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/home_fragment_latest_news_button"
-        android:textAlignment="textEnd"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:layout_margin="10dp"/>
+        <RelativeLayout
+            android:id="@+id/home_fragment_add_sale_button"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_selector"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <ImageView
+                android:id="@+id/home_fragment_add_sale_button_image"
+                android:contentDescription="@string/home_fragment_add_sale_button"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_note_add_sale_white"
+                />
+
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/home_fragment_add_sale_button_image"
+                android:layout_margin="16dp"
+                android:layout_centerVertical="true"
+                android:text="@string/home_fragment_add_sale_button"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_fragment_view_history_button"
+            android:layout_below="@id/home_fragment_add_sale_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_selector"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <ImageView
+                android:id="@+id/home_fragment_view_history_button_image"
+                android:contentDescription="@string/home_fragment_view_history_button"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_view_history_white"
+                />
+
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/home_fragment_view_history_button_image"
+                android:layout_margin="16dp"
+                android:layout_centerVertical="true"
+                android:text="@string/home_fragment_view_history_button"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_fragment_latest_news_button"
+            android:layout_below="@id/home_fragment_view_history_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_selector"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <ImageView
+                android:id="@+id/home_fragment_latest_news_button_image"
+                android:contentDescription="@string/home_fragment_latest_news_button"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_latest_news"
+                />
+
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/home_fragment_latest_news_button_image"
+                android:layout_margin="16dp"
+                android:layout_centerVertical="true"
+                android:text="@string/home_fragment_latest_news_button"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

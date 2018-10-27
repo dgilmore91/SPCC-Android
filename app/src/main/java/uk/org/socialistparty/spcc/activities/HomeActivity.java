@@ -30,7 +30,6 @@ import uk.org.socialistparty.spcc.fragments.SettingsFragment;
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener {
 
     private FragmentManager fragmentManager;
@@ -59,7 +58,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        moveToFragment(R.id.nav_news);
+        moveToFragment(R.id.nav_home);
     }
 
     private boolean webViewOpenAndBackable(){

@@ -36,6 +36,8 @@
     <string name="notes_container_title_string">Notes:</string>
     <string name="paid_checkbox_container_title_string">Has this sale been paid?</string>
     <string name="notes_input_hint">Optional - add extra info about this sale</string>
+
+    <string name="sale_history_no_items_found_text_view">No sale history available.</string>
     <string name="sale_history_list_item_notes_view_description">Notes are available for this sale</string>
     <string name="sale_history_list_item_paid_view_description">All funds from this sale have been paid in.</string>
     <string name="sale_history_list_item_paper_subtitle">papers</string>
