@@ -4,6 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="navigation_drawer_home">Home</string>
     <string name="navigation_drawer_news">News</string>
     <string name="navigation_drawer_sales_title">Sales</string>
     <string name="navigation_drawer_add_sale">Add Sale</string>
@@ -11,6 +12,10 @@
     <string name="navigation_drawer_settings">Settings</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="home_fragment_add_sale_button">Add Sale</string>
+    <string name="home_fragment_view_history_button">View History</string>
+    <string name="home_fragment_latest_news_button">Latest News</string>
 
     <string name="news_fragment">News Fragment</string>
     <string name="add_sale_fragment">Add Sale Fragment</string>
@@ -21,7 +26,7 @@
     <string name="fighting_fund_container_title_string">Fighting Fund:</string>
     <string name="fighting_fund_container_input_hint">0</string>
     <string name="paper_sale_form_confirm_button_text">Save</string>
-    <string name="date_container_title_string">Date:</string>
+    <string name="date_container_title_string">Date (DD/MM/YY) :</string>
 
     <string name="date_container_input_hint">Date</string>
     <string name="date_day_container_input_hint">Day</string>

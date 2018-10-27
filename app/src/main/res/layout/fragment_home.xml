@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".fragments.HomeFragment">
+
+    <Button
+        android:id="@+id/home_fragment_add_sale_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_fragment_add_sale_button"
+        android:textAlignment="textEnd"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_margin="10dp"
+        android:drawableStart="@drawable/notes_icon"
+        android:background="@color/primary"
+        android:textColor="@android:color/white"
+        />
+
+    <Button
+        android:id="@+id/home_fragment_view_history_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_fragment_view_history_button"
+        android:textAlignment="textEnd"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_margin="10dp"
+        />
+
+    <Button
+        android:id="@+id/home_fragment_latest_news_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_fragment_latest_news_button"
+        android:textAlignment="textEnd"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>

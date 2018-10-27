@@ -177,7 +177,7 @@ public class AddSaleFragment extends Fragment {
 
     private String validateValues() {
         boolean arePapersOrFundPresent = (papersSold > 0 || fundRaised > 0);
-        boolean isDayCorrectlyFormatted = (day > 0 && day < 31);
+        boolean isDayCorrectlyFormatted = (day > 0 && day <= 31);
         boolean isMonthCorrectlyFormatted = (month >= 0 && month < 12);
         boolean isYearCorrectlyFormatted = (year > 2000);
 

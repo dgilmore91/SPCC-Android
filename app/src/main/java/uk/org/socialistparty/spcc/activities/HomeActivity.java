@@ -22,6 +22,7 @@ import uk.org.socialistparty.spcc.R;
 import uk.org.socialistparty.spcc.data.AppDatabase;
 import uk.org.socialistparty.spcc.data.Sale;
 import uk.org.socialistparty.spcc.fragments.AddSaleFragment;
+import uk.org.socialistparty.spcc.fragments.HomeFragment;
 import uk.org.socialistparty.spcc.fragments.NewsFragment;
 import uk.org.socialistparty.spcc.fragments.SaleHistoryFragment;
 import uk.org.socialistparty.spcc.fragments.SettingsFragment;
@@ -34,6 +35,7 @@ public class HomeActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private AppDatabase db;
+    private int activeFragmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +62,18 @@ public class HomeActivity extends AppCompatActivity
         moveToFragment(R.id.nav_news);
     }
 
+    private boolean webViewOpenAndBackable(){
+        return ((NewsFragment)getCurrentFragment()).canWebViewGoBack();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if ( activeFragmentId == R.id.nav_news &&  webViewOpenAndBackable()) {
+            // If webView is open and can go back, this takes priority.
+            ((NewsFragment)getCurrentFragment()).webViewGoBack();
         } else {
             super.onBackPressed();
         }
@@ -95,6 +104,10 @@ public class HomeActivity extends AppCompatActivity
         }
         return db;
     }
+
+    public Fragment getCurrentFragment(){
+       return fragmentManager.getFragments().get(0);
+    }
     
     public void moveToFragment(int fragmentId) {
         Fragment fragment = null;
@@ -109,9 +122,12 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_sale_history:
                 fragment = new SaleHistoryFragment();
                 break;
-            case R.id.nav_settings:
-                fragment = new SettingsFragment();
+            case R.id.nav_home:
+                fragment = new HomeFragment();
                 break;
+//            case R.id.nav_settings:
+//                fragment = new SettingsFragment();
+//                break;
         }
 
         if (fragment != null) {
@@ -120,7 +136,11 @@ public class HomeActivity extends AppCompatActivity
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
+
+            activeFragmentId = fragmentId;
         }
+
+
     }
 
     public void clearBackStack() {
