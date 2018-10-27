@@ -3,18 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
             android:id="@+id/nav_home"
-            android:title="Home"/>
+            android:icon="@drawable/ic_home_black"
+            android:title="@string/navigation_drawer_home"/>
         <item
             android:id="@+id/nav_news"
+            android:icon="@drawable/ic_latest_news"
             android:title="@string/navigation_drawer_news" />
         <item
             android:id="@+id/nav_add_sale"
+            android:icon="@drawable/ic_note_add_sale_white"
             android:title="@string/navigation_drawer_add_sale" />
         <item
             android:id="@+id/nav_sale_history"
+            android:icon="@drawable/ic_view_history_white"
             android:title="@string/navigation_drawer_sale_history" />
         <!--<item-->
             <!--android:id="@+id/nav_settings"-->

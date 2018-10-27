@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private AppDatabase db;
+    private Toolbar toolbar;
     private int activeFragmentId;
 
     @Override
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
 
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -112,17 +113,21 @@ public class HomeActivity extends AppCompatActivity
         Fragment fragment = null;
 
         switch (fragmentId) {
+            case R.id.nav_home:
+                fragment = new HomeFragment();
+                setTitle(R.string.navigation_drawer_home);
+                break;
             case R.id.nav_news:
                 fragment = new NewsFragment();
+                setTitle(R.string.navigation_drawer_news);
                 break;
             case R.id.nav_add_sale:
                 fragment = new AddSaleFragment();
+                setTitle(R.string.navigation_drawer_add_sale);
                 break;
             case R.id.nav_sale_history:
                 fragment = new SaleHistoryFragment();
-                break;
-            case R.id.nav_home:
-                fragment = new HomeFragment();
+                setTitle(R.string.navigation_drawer_sale_history);
                 break;
 //            case R.id.nav_settings:
 //                fragment = new SettingsFragment();
